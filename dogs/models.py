@@ -40,6 +40,9 @@ class Dog(models.Model):
         blank=True,
         null=True,
     )
+    view_counter = models.PositiveIntegerField(
+        verbose_name="Счётчик просмотров", default=0
+    )
 
     class Meta:
         verbose_name = "Собака"

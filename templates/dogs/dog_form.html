@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% load my_tags %}
+
+
+{% block title %} Все собаки {% endblock title %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <form class="row" method="post" enctype="multipart/form-data">
+                    <div class="card">
+                        <div class="card-title">
+                            <h3>Создание новой записи</h3>
+                        </div>
+                        <div class="card-body">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                        </div>
+                        <p>
+                            {% if object %}
+                                <button type="submit" class="btn btn-primary">Сохранить</button>
+                            {% else %}
+                                <button type="submit" class="btn btn-primary">Создать</button>
+                            {% endif %}
+
+                        </p>
+
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

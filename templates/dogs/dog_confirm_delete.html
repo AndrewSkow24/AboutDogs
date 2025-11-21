@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %} Удаление записи {% endblock title %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <form class="row" method="post" enctype="multipart/form-data">
+                    <div class="card">
+                        <div class="card-title">
+                            <h3>Подтверждение удаления</h3>
+                        </div>
+                        <p class="card-text"> Подверждаете удаление записи "{{ object }}" ? </p>
+
+                        <div class="card-body">
+                            {% csrf_token %}
+                        </div>
+
+
+                        <p>
+                                <button type="submit" class="btn btn-danger">Удалить</button>
+                                <a href="{% url 'dog_list' %}" class="btn btn-primary" >Отмена</a>
+
+                        </p>
+
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

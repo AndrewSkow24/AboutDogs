@@ -1,19 +1,45 @@
-from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy, reverse
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView,
+)
+
 from .models import Dog
 
 
-def index(request):
-    return render(request, "base.html")
+class DogListView(ListView):
+    model = Dog
+    # шаблон по правилам должен быть app_name/<model_name>_<action>
 
 
-def dogs_list(request):
-    dogs = Dog.objects.all()
-    context = {"dogs": dogs}
-    return render(request, "dogs/dogs_list.html", context)
+class DogDetailView(DetailView):
+    model = Dog
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        self.object.view_counter += 1
+        self.object.save()
+        return self.object
 
 
-def dogs_details(request, pk):
-    # dog = Dog.objects.get(pk=pk)
-    dog = get_object_or_404(Dog, pk=pk)
-    context = {"dog": dog}
-    return render(request, "dogs/dogs_detail.html", context)
+class DogCreateView(CreateView):
+    model = Dog
+    fields = ("name", "breed", "date_birth", "photo")
+    success_url = reverse_lazy("dog_list")
+
+
+class DogUpdateView(UpdateView):
+    model = Dog
+    fields = ("name", "breed", "date_birth", "photo")
+    success_url = reverse_lazy("dog_list")
+
+    def get_success_url(self):
+        return reverse("dog_detail", args=[self.kwargs.get("pk")])
+
+
+class DogDeleteView(DeleteView):
+    model = Dog
+    success_url = reverse_lazy("dog_list")

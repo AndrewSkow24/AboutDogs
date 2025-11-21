@@ -10,16 +10,22 @@
       <img
         src="{{ dog.photo | media_filter }}"
         class="card-img-top"
-        alt="..."
+        alt="Фото собаки"
       />
       <div class="card-body">
-        <h5 class="card-title">{{ dog.name }}</h5>
+        <h5 class="card-title">{{ object.name }}</h5>
         <p class="card-text">
-          This is a wider card with supporting text below as a natural lead-in
-          to additional content. This content is a little bit longer.
+          Порода: {{ object.breed }}
         </p>
+
+          <p class="card-text">
+          Дата рождения: {{ object.date_birth }}
+        </p>
+
         <p class="card-text">
-          <small class="text-body-secondary">Last updated 3 mins ago</small>
+            <a href="{% url 'dog_list' %}"  class="text-body-secondary">Назад к списку</a>
+
+
         </p>
       </div>
     </div>

@@ -1,0 +1,30 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="ru" data-bs-theme="light">
+  <head>
+    <title>{% block title %} Без заголовка {% endblock title %}</title>
+    <!--  -->
+    {% include 'includes/head.html' %}
+    <!--  -->
+  </head>
+
+  <body>
+    <!--  -->
+    {% include 'includes/header.html' %}
+    <!--  -->
+    <main>
+      {% include 'includes/top_section.html' %}
+      <!--  -->
+      {% block content %}
+      <!--  -->
+      {% endblock %}
+    </main>
+
+    {% include 'includes/footer.html' %}
+    <!--  -->
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/color-modes.js' %}"></script>
+  </body>
+</html>

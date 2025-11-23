@@ -1,8 +1,7 @@
 from django.contrib import admin
-from .models import Dog, Breed
+from .models import Dog, Breed, Parent
 
 
-# Register your models here.
 @admin.register(Breed)
 class BreedAdmin(admin.ModelAdmin):
     list_display = [
@@ -18,3 +17,8 @@ class DogAdmin(admin.ModelAdmin):
         "breed",
     ]
     search_fields = ["name"]
+
+
+@admin.register(Parent)
+class ParentAdmin(admin.ModelAdmin):
+    list_display = ["id", "name", "dog"]

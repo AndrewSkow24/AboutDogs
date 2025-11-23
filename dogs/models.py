@@ -1,5 +1,7 @@
 from django.db import models
 
+NULLABLE = {"blank": True, "null": True}
+
 
 class Breed(models.Model):
     name = models.CharField(
@@ -51,3 +53,38 @@ class Dog(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Parent(models.Model):
+    dog = models.ForeignKey(
+        Dog,
+        related_name="parents",
+        on_delete=models.SET_NULL,
+        **NULLABLE,
+        verbose_name="Собака",
+    )
+    name = models.CharField(
+        max_length=255, verbose_name="Имя", help_text="Введите кличку собаки"
+    )
+    breed = models.ForeignKey(
+        Breed,
+        on_delete=models.SET_NULL,
+        related_name="parents_dog",
+        verbose_name="порода",
+        help_text="Введите породу собаки",
+        blank=True,
+        null=True,
+    )
+    year_born = models.PositiveIntegerField(
+        verbose_name="Год рождения",
+        help_text="Укажите год рождения",
+        default=0,
+        **NULLABLE,
+    )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Предок"
+        verbose_name_plural = "Предки"

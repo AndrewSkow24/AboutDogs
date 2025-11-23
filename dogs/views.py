@@ -8,6 +8,7 @@ from django.views.generic import (
 )
 
 from .models import Dog
+from .forms import DogForm
 
 
 class DogListView(ListView):
@@ -27,13 +28,14 @@ class DogDetailView(DetailView):
 
 class DogCreateView(CreateView):
     model = Dog
-    fields = ("name", "breed", "date_birth", "photo")
+    # fields = ("name", "breed", "date_birth", "photo")
+    form_class = DogForm
     success_url = reverse_lazy("dog_list")
 
 
 class DogUpdateView(UpdateView):
     model = Dog
-    fields = ("name", "breed", "date_birth", "photo")
+    form_class = DogForm
     success_url = reverse_lazy("dog_list")
 
     def get_success_url(self):

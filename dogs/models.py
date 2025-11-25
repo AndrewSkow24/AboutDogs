@@ -1,4 +1,5 @@
 from django.db import models
+from users.models import User
 
 NULLABLE = {"blank": True, "null": True}
 
@@ -44,6 +45,9 @@ class Dog(models.Model):
     )
     view_counter = models.PositiveIntegerField(
         verbose_name="Счётчик просмотров", default=0
+    )
+    owner = models.ForeignKey(
+        User, on_delete=models.SET_NULL, blank=True, null=True, verbose_name="Владелец"
     )
 
     class Meta:

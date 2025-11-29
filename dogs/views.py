@@ -1,7 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.forms.models import inlineformset_factory
-from django.http import HttpResponseForbidden
 from django.urls import reverse_lazy, reverse
 from django.views.generic import (
     ListView,
@@ -13,12 +12,14 @@ from django.views.generic import (
 
 from .models import Dog, Parent
 from .forms import DogForm, ParentForm, DogModeratorForm
-from users.models import User
+from .sevices import get_dogs_from_cache
 
 
 class DogListView(ListView):
     model = Dog
-    # шаблон по правилам должен быть app_name/<model_name>_<action>
+
+    def get_queryset(self):
+        return get_dogs_from_cache()
 
 
 class DogDetailView(LoginRequiredMixin, DetailView):

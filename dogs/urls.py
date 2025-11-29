@@ -1,4 +1,6 @@
 from django.urls import path
+from django.views.decorators.cache import cache_page
+
 from . import views
 
 urlpatterns = [
@@ -6,7 +8,11 @@ urlpatterns = [
     path("dogs/create/", views.DogCreateView.as_view(), name="dog_create"),
     # Read
     path("", views.DogListView.as_view(), name="dog_list"),
-    path("dogs/<int:pk>/", views.DogDetailView.as_view(), name="dog_detail"),
+    path(
+        "dogs/<int:pk>/",
+        views.DogDetailView.as_view(),
+        name="dog_detail",
+    ),
     # Update
     path("dogs/<int:pk>/update/", views.DogUpdateView.as_view(), name="dog_update"),
     # Delete

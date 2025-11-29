@@ -25,6 +25,7 @@ class Dog(models.Model):
     name = models.CharField(
         max_length=255, verbose_name="Имя", help_text="Введите кличку собаки"
     )
+    description = models.TextField(verbose_name="Описание", **NULLABLE)
     breed = models.ForeignKey(
         Breed,
         on_delete=models.SET_NULL,
@@ -54,6 +55,10 @@ class Dog(models.Model):
         verbose_name = "Собака"
         verbose_name_plural = "Собаки"
         ordering = ["breed", "name"]
+        permissions = [
+            ("can_edit_breed", "Может менять породу"),
+            ("can_edit_description", "Может менять описание"),
+        ]
 
     def __str__(self):
         return self.name

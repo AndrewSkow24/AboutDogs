@@ -4,32 +4,39 @@
 <!--  -->
 <!--  -->
 {% block content %}
-<div class="album py-5 bg-body-tertiary">
-  <div class="container">
-    <div class="card mb-3">
-      <img
-        src="{{ dog.photo | media_filter }}"
-        class="card-img-top"
-        alt="Фото собаки"
-      />
-      <div class="card-body">
-        <h5 class="card-title">{{ object.name }}</h5>
-        <p class="card-text">
-          Порода: {{ object.breed }}
-        </p>
+<div class="container">
+    <div class="row">
+        <div class="card">
+            <img
+                    src="{{ dog.photo | media_filter }}"
+                    class="card-img-top"
+                    alt="Фото собаки"
+            />
+            <div class="card-header">
+                <h3 class="card-title">{{ object.name }}</h3>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    Порода: {{ object.breed }}
+                </p>
+                <p class="card-text">
+                    Дата рождения: {{ object.date_birth }}
+                </p>
+                {% if object.description %}
+                <p class="card-text">
+                    {{ object.description }}
+                </p>
+                {% endif %}
 
-          <p class="card-text">
-          Дата рождения: {{ object.date_birth }}
-        </p>
 
-        <p class="card-text">
-            <a href="{% url 'dog_list' %}"  class="text-body-secondary">Назад к списку</a>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'dog_list' %}" class="text-body-secondary">Назад к списку</a>
+            </div>
+        </div>
 
 
-        </p>
-      </div>
     </div>
-  </div>
 </div>
 <!--  -->
 {% endblock content %}

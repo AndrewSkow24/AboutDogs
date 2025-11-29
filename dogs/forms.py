@@ -22,6 +22,15 @@ class DogForm(StyledFormMixin, forms.ModelForm):
         exclude = ["view_counter", "owner"]
 
 
+class DogModeratorForm(StyledFormMixin, forms.ModelForm):
+    class Meta:
+        model = Dog
+        fields = [
+            "breed",
+            "description",
+        ]
+
+
 class ParentForm(StyledFormMixin, forms.ModelForm):
     class Meta:
         model = Parent

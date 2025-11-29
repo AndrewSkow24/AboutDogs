@@ -7,44 +7,47 @@
 <!--  -->
 <!--  -->
 {% block content %}
-  <div class="album py-5 bg-body-tertiary">
+<div class="album py-5 bg-body-tertiary">
     <div class="container">
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-        {% for dog in object_list %}
-      <!-- Начало карточки -->
-          <div class="col">
-            <div class="card shadow-sm">
-                <div class="card-header">
-                    <h5 class="card-title">{{ dog.name }} </h5>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for dog in object_list %}
+            <!-- Начало карточки -->
+            <div class="col">
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        <h5 class="card-title">{{ dog.name }} </h5>
+                    </div>
+
+                    <img src="{{ dog.photo | media_filter }}" alt="фото собаки"/>
+                    <div class="card-body">
+                        <p class="card-text">Порода: {{ dog.breed }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+
+
+                            <div class="d-flex flex-wrap gap-1" role="group">
+                                <a href="{% url 'dog_detail' dog.pk %}" type="button"
+                                   class="btn btn-success">Просмотр</a>
+                                {% if perms.dogs.can_edit_breed and perms.dogs.can_edit_description or user == dog.owner %}
+                                <a href="{% url 'dog_update' dog.pk %}" type="button" class="btn btn-warning">Редактирование</a>
+                                {% endif %}
+                                <a href="{% url 'dog_delete' dog.pk %}" type="button"
+                                   class="btn btn-danger">Удаление</a>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <p class="card-text">Просмотры: {{ dog.view_counter }}</p>
+                    </div>
+
                 </div>
-
-              <img src="{{ dog.photo | media_filter }}" alt="фото собаки" />
-              <div class="card-body">
-                <p class="card-text">Порода: {{ dog.breed }}</p>
-                <div class="d-flex justify-content-between align-items-center">
-
-
-                  <div class="d-flex flex-wrap gap-1" role="group">
-                      <a href="{% url 'dog_detail' dog.pk %}" type="button" class="btn btn-success">Просмотр</a>
-
-                    <a href="{% url 'dog_update' dog.pk %}" type="button" class="btn btn-warning">Редактирование</a>
-                    <a href="{% url 'dog_delete' dog.pk %}" type="button" class="btn btn-danger">Удаление</a>
-
-                  </div>
-
-                </div>
-              </div>
-
-                <div class="card-footer">
-                    <p class="card-text">Просмотры: {{ dog.view_counter }}</p>
-                </div>
-
             </div>
-          </div>
-      <!-- Конец карточки -->
-        {% endfor %}
-      </div>
+            <!-- Конец карточки -->
+            {% endfor %}
+        </div>
     </div>
-  </div>
+</div>
 <!--  -->
 {% endblock content %}

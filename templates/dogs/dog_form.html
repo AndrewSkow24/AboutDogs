@@ -13,7 +13,7 @@
         <form class="row" method="post" enctype="multipart/form-data">
 
             <!-- Карточка 1: основная форма -->
-            <div class="col-6">
+            <div class="col-8">
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">
@@ -28,18 +28,21 @@
                         {% csrf_token %}
                         {{ form.as_p }}
                     </div>
-                    <p>
+
+
+                    <div class="card-footer">
                         {% if object %}
                         <button type="submit" class="btn btn-primary">Сохранить</button>
                         {% else %}
                         <button type="submit" class="btn btn-primary">Создать</button>
                         {% endif %}
-                    </p>
+                    </div>
+
                 </div>
             </div>
 
             <!-- Карточка 2: для формсетов -->
-            <div class="col-6">
+            <div class="col-4">
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Предок собаки</h3>

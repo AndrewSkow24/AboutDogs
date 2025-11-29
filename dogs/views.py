@@ -1,5 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.forms.models import inlineformset_factory
+from django.http import HttpResponseForbidden
 from django.urls import reverse_lazy, reverse
 from django.views.generic import (
     ListView,
@@ -10,7 +12,7 @@ from django.views.generic import (
 )
 
 from .models import Dog, Parent
-from .forms import DogForm, ParentForm
+from .forms import DogForm, ParentForm, DogModeratorForm
 from users.models import User
 
 
@@ -19,14 +21,18 @@ class DogListView(ListView):
     # шаблон по правилам должен быть app_name/<model_name>_<action>
 
 
-class DogDetailView(DetailView):
+class DogDetailView(LoginRequiredMixin, DetailView):
     model = Dog
 
     def get_object(self, queryset=None):
+
         self.object = super().get_object(queryset)
-        self.object.view_counter += 1
-        self.object.save()
-        return self.object
+        if self.request.user == self.object.owner or self.request.user.is_staff:
+            self.object.view_counter += 1
+            self.object.save()
+            return self.object
+        else:
+            raise PermissionDenied
 
 
 class DogCreateView(LoginRequiredMixin, CreateView):
@@ -44,7 +50,7 @@ class DogCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class DogUpdateView(UpdateView):
+class DogUpdateView(LoginRequiredMixin, UpdateView):
     model = Dog
     form_class = DogForm
     success_url = reverse_lazy("dog_list")
@@ -77,6 +83,18 @@ class DogUpdateView(UpdateView):
             return self.render_to_response(
                 self.get_context_data(form=form, formset=formset)
             )
+
+    def get_form_class(self):
+        user = self.request.user
+
+        if user == self.object.owner:
+            return DogForm
+        if user.has_perm("dogs.can_edit_breed") and user.has_perm(
+            "dogs.eidt_description"
+        ):
+            return DogModeratorForm
+        else:
+            raise PermissionDenied
 
 
 class DogDeleteView(DeleteView):
